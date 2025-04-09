@@ -1,37 +1,28 @@
+<script setup lang="ts">
+import type { CellValue } from '../types';
+
+defineProps<{
+  value: CellValue;
+  isDisabled: boolean;
+  winner: boolean;
+  index: number;
+}>();
+</script>
+
 <template>
-  <div
+  <button
+    type="button"
+    :disabled="isDisabled"
     class="cell"
     :class="{
-      'cell--winner': winner,
       'cell--disabled': isDisabled,
+      'cell--winner': winner,
     }"
-    @click="handleClick"
+    :data-index="index"
   >
     {{ value }}
-  </div>
+  </button>
 </template>
-
-<script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
-
-interface Props {
-  value: string | null;
-  winner: boolean;
-  isDisabled: boolean;
-}
-
-interface Emits {
-  (event: 'click'): void;
-}
-
-const { value, winner, isDisabled } = defineProps<Props>();
-const emit = defineEmits<Emits>();
-
-function handleClick(): void {
-  if (isDisabled) return;
-  emit('click');
-}
-</script>
 
 <style scoped>
 .cell {
@@ -45,16 +36,14 @@ function handleClick(): void {
   cursor: pointer;
   transition: ease 0.3s;
 }
-
 .cell:hover {
   background-color: #a6f5b9;
 }
-
-.cell--disabled {
+/* .cell--disabled {
   pointer-events: none;
   cursor: default;
-}
-
+  opacity: 0.5;
+} */
 .cell--winner {
   background-color: #a6f5b9;
 }

@@ -1,37 +1,26 @@
+<script setup lang="ts">
+import Cell from './Cell.vue';
+import type { CellValue } from '../types';
+
+defineProps<{
+  board: CellValue[];
+  winningCombination: number[];
+  isDisabled: boolean;
+}>();
+</script>
+
 <template>
-  <div class="game-board">
+  <div class="game-board" v-on="$attrs">
     <Cell
       v-for="(cell, index) in board"
       :key="index"
       :value="cell"
-      :winner="winningCombination.includes(index)"
-      @click="cellClicked(index)"
-      class="game-board__cell"
+      :index="index"
       :isDisabled="isDisabled"
+      :winner="winningCombination.includes(index)"
     />
   </div>
 </template>
-
-<script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
-import Cell from './Cell.vue';
-
-interface Props {
-  board: (string | null)[];
-  winningCombination: number[];
-  isDisabled: boolean;
-}
-
-const { board, winningCombination, isDisabled } = defineProps<Props>();
-
-const emit = defineEmits<{
-  (event: 'cell-click', index: number): void;
-}>();
-
-function cellClicked(index: number): void {
-  emit('cell-click', index);
-}
-</script>
 
 <style scoped>
 .game-board {
